@@ -1,31 +1,64 @@
 .App {
   text-align: center;
 }
+* {box-sizing: border-box;}
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body { 
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.header {
+  overflow: hidden;
+  padding: 20px 10px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.header a {
+  float: left;
+  color: black;
+  text-align: center;
+  padding: 12px;
+  text-decoration: none;
+  font-size: 18px;
+  border-radius: 4px;
+}
+
+.header a.logo {
+  background-image: url("./components/Logo/brain.png");
+  font-weight: bold;
+  height: 64px;
+  width: 64px;
+}
+
+.header a.logo:hover {
+  background-color: #d64d84;
+}
+
+.header a:hover {
+  background-color: #0d91a0;
+  color: black;
+}
+
+.header a.active {
+  background-color: dodgerblue;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.header-right {
+  float: right;
+}
+
+@media screen and (max-width: 500px) {
+  .header a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+  
+  .header-right {
+    float: none;
+    cursor: pointer;
+  }
 }
 
 .center {
@@ -33,25 +66,6 @@
   justify-content: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-#logo {
-  height: 100px;
-  width: 100px;
-  position: absolute;
-  display: flex;
-  flex-direction: row;
-  align-items: left;
-  justify-content: left;
-  padding-left: 5%;
-}
 
 button {
   cursor: pointer;
