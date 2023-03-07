@@ -20,8 +20,26 @@ class App extends React.Component {
       imageURL: '',
       box: {},
       route: 'signin',
-      isSignedIn: false
+      isSignedIn: false,
+      user: {
+        id: '',
+        name: '',
+        email: '',
+        entries: 0,
+        joined: ''
+        
+      }
     }
+  }
+
+  loadUser = (data) => {
+    this.setState({user: {
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      entries: data.entries,
+      joined: data.joined
+    }})
   }
 
   calculateFaceLocation = (data) => {
@@ -53,7 +71,22 @@ class App extends React.Component {
       version: '6dc7e46bc9124c5c8824be4822abe105',
       type: 'visual-detector',
       }, this.state.input)
-    .then(response => this.displayFaceBox(this.calculateFaceLocation(response)))
+    .then(response => {
+      if (response) {
+        fetch('http://localhost:3000/image', {
+          method: 'put',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            id: this.state.user.id
+          })
+        })
+          .then(response => response.json())
+          .then(count => {
+            this.setState(Object.assign(this.state.user, { entries: count }))
+          })
+      }
+      this.displayFaceBox(this.calculateFaceLocation(response)
+      )})
     .catch(err => console.log(err));
 
   }
@@ -89,7 +122,7 @@ class App extends React.Component {
         
         { route == 'home' 
         ? <div>
-        <Rank />
+        <Rank name={this.state.user.name} entries={this.state.user.entries}/>
         <ImageLinkForm 
           onInputChange={this.onInputChange} 
           onButtonSubmit={this.onButtonSubmit}/>
@@ -97,8 +130,8 @@ class App extends React.Component {
         </div>
         : (
             route == 'signin' 
-            ? <Signin onRouteChange={this.onRouteChange} />
-            : <Register onRouteChange={this.onRouteChange} />
+            ? <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
+            : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
           ) 
         }
         
